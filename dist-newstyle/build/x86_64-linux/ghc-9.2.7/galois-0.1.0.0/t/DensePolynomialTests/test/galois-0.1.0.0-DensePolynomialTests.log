@@ -1,9 +1,4 @@
 Test suite DensePolynomialTests: RUNNING...
-Cases: 13  Tried: 0  Errors: 0  Failures: 0Cases: 13  Tried: 1  Errors: 0  Failures: 0Cases: 13  Tried: 2  Errors: 0  Failures: 0Cases: 13  Tried: 3  Errors: 0  Failures: 0Cases: 13  Tried: 4  Errors: 0  Failures: 0Cases: 13  Tried: 5  Errors: 0  Failures: 0Cases: 13  Tried: 6  Errors: 0  Failures: 0Cases: 13  Tried: 7  Errors: 0  Failures: 0Cases: 13  Tried: 8  Errors: 0  Failures: 0Cases: 13  Tried: 9  Errors: 0  Failures: 0Cases: 13  Tried: 10  Errors: 0  Failures: 0Cases: 13  Tried: 11  Errors: 0  Failures: 0Cases: 13  Tried: 12  Errors: 0  Failures: 0                                            ### Error in:   12:mulTestEqualLength
-Prelude.undefined
-CallStack (from HasCallStack):
-  error, called at libraries/base/GHC/Err.hs:74:14 in base:GHC.Err
-  undefined, called at lib/DensePolynomial.hs:37:61 in galois-0.1.0.0-inplace-galois-lib:DensePolynomial
-Cases: 13  Tried: 13  Errors: 1  Failures: 0
+Cases: 18  Tried: 0  Errors: 0  Failures: 0Cases: 18  Tried: 1  Errors: 0  Failures: 0Cases: 18  Tried: 2  Errors: 0  Failures: 0Cases: 18  Tried: 3  Errors: 0  Failures: 0Cases: 18  Tried: 4  Errors: 0  Failures: 0Cases: 18  Tried: 5  Errors: 0  Failures: 0Cases: 18  Tried: 6  Errors: 0  Failures: 0Cases: 18  Tried: 7  Errors: 0  Failures: 0Cases: 18  Tried: 8  Errors: 0  Failures: 0Cases: 18  Tried: 9  Errors: 0  Failures: 0Cases: 18  Tried: 10  Errors: 0  Failures: 0Cases: 18  Tried: 11  Errors: 0  Failures: 0Cases: 18  Tried: 12  Errors: 0  Failures: 0Cases: 18  Tried: 13  Errors: 0  Failures: 0Cases: 18  Tried: 14  Errors: 0  Failures: 0Cases: 18  Tried: 15  Errors: 0  Failures: 0Cases: 18  Tried: 16  Errors: 0  Failures: 0Cases: 18  Tried: 17  Errors: 0  Failures: 0                                            Cases: 18  Tried: 18  Errors: 0  Failures: 0
 Test suite DensePolynomialTests: PASS
 Test suite logged to: /home/mislav/galois/dist-newstyle/build/x86_64-linux/ghc-9.2.7/galois-0.1.0.0/t/DensePolynomialTests/test/galois-0.1.0.0-DensePolynomialTests.log

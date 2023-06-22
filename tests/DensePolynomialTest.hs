@@ -84,7 +84,24 @@ poly72 = DensePolynomial [1, 1]
 poly73 = DensePolynomial [1.0, 2.0, 1.0]
 poly74 = DensePolynomial [1, 2, 1]
 
+mulTestEqualLength :: Test
 mulTestEqualLength = TestCase(assertEqual "should return [1, 2, 1]" poly74 (mul poly72 poly72))
+mulTestEqualLengthDouble :: Test
+mulTestEqualLengthDouble = TestCase(assertEqual "should return [1.0, 2.0, 1.0]" poly73 (mul poly71 poly71))
+
+poly81 = DensePolynomial [1, 2, 1]
+poly82 = DensePolynomial [2, 1]
+poly83 = DensePolynomial [2, 5, 4, 1]
+mulTestFirstLonger = TestCase(assertEqual "" poly83 (mul poly81 poly82))
+mulTestSecondLonger = TestCase(assertEqual "" poly83 (mul poly82 poly81))
+
+poly91 = DensePolynomial []
+
+mulTestSecondNull = TestCase(assertEqual "" poly91 (mul poly81 poly91))
+mulTestFirstNull = TestCase(assertEqual "" poly91 (mul poly91 poly81))
+mulTestBothNull = TestCase(assertEqual "" poly91 (mul poly91 poly91))
+
+
 
 
 
@@ -101,7 +118,12 @@ tests = TestList [TestLabel "sumTestEqualLength" sumTestEqualLength,
                   TestLabel "subTestFirstNull" subTestFirstNull,
                   TestLabel "subTestSecondNull" subTestSecondNull,
                   TestLabel "subTestBothNull" subTestBothNull,
-                  TestLabel "mulTestEqualLength" mulTestEqualLength]
+                  TestLabel "mulTestEqualLength" mulTestEqualLength,
+                  TestLabel "mulFirstLonger" mulTestFirstLonger,
+                  TestLabel "mulTestSecondLonger" mulTestSecondLonger,
+                  TestLabel "mulTestFirstNull" mulTestFirstNull,
+                  TestLabel "mulTestSecondNull" mulTestSecondNull,
+                  TestLabel "mulTestBothNull" mulTestBothNull]
 
 main :: IO ()
 main = do
