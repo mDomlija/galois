@@ -87,7 +87,25 @@ _divmod a@(DensePolynomial aCoefs) b@(DensePolynomial bCoefs) q
           coef = head aCoefs / head bCoefs
           bHelp = map (* coef) bCoefs ++ replicate (lenA - lenB) 0
           aNew =  trim $ DensePolynomial (map (round' 6) $ zipWith (-) aCoefs bHelp)
-          qNew = replaceAtIndex (lenA - lenB) coef q 
+          qNew = replaceAtIndex (lenA - lenB) coef q
+
+degree :: DensePolynomial a -> Int
+degree (DensePolynomial coefs) = length coefs
+
+leadingCoefficient :: Num a => DensePolynomial a -> a
+leadingCoefficient (DensePolynomial (lead : tail)) = lead
+leadingCoefficient (DensePolynomial []) = 0
+
+pseudoDivisonFactor :: RealFrac a => DensePolynomial a -> DensePolynomial a -> Integer
+pseudoDivisonFactor a@(DensePolynomial aCoefs) b@(DensePolynomial bCoefs)
+  | degree a >= degree b = round $ beta ^ l
+  | otherwise = pseudoDivisonFactor b a
+    where beta = leadingCoefficient b
+          l = degree a - degree b + 1
+
+pseudoDivmod :: RealFrac a => DensePolynomial a -> DensePolynomial a -> (DensePolynomial a, DensePolynomial a)
+pseudoDivmod a b = divmod (a * fromInteger (pseudoDivisonFactor a b)) b
+
 
 
 replaceAtIndex :: Int -> a -> [a] -> [a]
