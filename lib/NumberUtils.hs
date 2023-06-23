@@ -1,8 +1,8 @@
 module NumberUtils where
 
 
-gcd :: Integer -> Integer -> Integer
-gcd a b = q
+gcd' :: Integer -> Integer -> Integer
+gcd' a b = q
   where (q, _ ,_) = _extendedEuclidian (abs a) (abs b) 1 0 0 1
 
 gcdExtended :: Integer -> Integer -> (Integer, Integer, Integer)
@@ -16,3 +16,13 @@ _extendedEuclidian c d c1 c2 d1 d2
           r = c - q * d 
           r1 = c1 - q * d1 
           r2 = c2 - q * d2 
+
+gcdMultiple :: (RealFrac a) => [a] -> Integer
+gcdMultiple [h] = round h 
+gcdMultiple ns = multiple h t
+  where multiple currentGcd (0 : t) = multiple currentGcd t 
+        multiple currentGcd (h:t) = multiple (gcd currentGcd h) t 
+        multiple currentGcd [] = currentGcd
+        (h : t) = map round ns
+
+

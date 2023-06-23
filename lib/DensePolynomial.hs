@@ -1,5 +1,8 @@
 {-# LANGUAGE InstanceSigs #-}
+{-# LANGUAGE FlexibleContexts #-}
 module DensePolynomial where
+
+import NumberUtils
 
 data DensePolynomial a = DensePolynomial [a]
   deriving (Show, Eq)
@@ -106,12 +109,82 @@ pseudoDivisonFactor a@(DensePolynomial aCoefs) b@(DensePolynomial bCoefs)
 pseudoDivmod :: RealFrac a => DensePolynomial a -> DensePolynomial a -> (DensePolynomial a, DensePolynomial a)
 pseudoDivmod a b = divmod (a * fromInteger (pseudoDivisonFactor a b)) b
 
-derivative :: (Num a, Eq a) => DensePolynomial a -> DensePolynomial a 
+derivative :: (Num a, Eq a) => DensePolynomial a -> DensePolynomial a
 derivative a@(DensePolynomial coefs) = _derivative t [] 1
   where (h : t) = reverse coefs
-        _derivative (h : t) solution curr = _derivative t ( h * curr : solution) (curr + 1) 
+        _derivative (h : t) solution curr = _derivative t ( h * curr : solution) (curr + 1)
         _derivative [] [] _ = DensePolynomial []
         _derivative [] solution _ = DensePolynomial solution
+
+cont :: RealFrac a => DensePolynomial a -> Integer
+cont (DensePolynomial []) = 1
+cont (DensePolynomial xs) = gcdMultiple xs
+
+pp :: RealFrac a => DensePolynomial a -> DensePolynomial a
+pp (DensePolynomial []) = DensePolynomial []
+pp (DensePolynomial [h]) = DensePolynomial [1]
+pp poly@(DensePolynomial coefs) = res
+  where (res, _) = divmod poly $ DensePolynomial [fromInteger cPoly]
+        cPoly = cont poly
+
+primitiveEuclidian :: RealFrac a => DensePolynomial a -> DensePolynomial a -> DensePolynomial a
+primitiveEuclidian a b = _primitiveEuclidian a b (pp a) (pp b)
+
+
+_primitiveEuclidian :: RealFrac a => DensePolynomial a -> DensePolynomial a -> DensePolynomial a -> DensePolynomial a -> DensePolynomial a
+_primitiveEuclidian a b c (DensePolynomial []) = c * gamma
+  where gamma = fromInteger $ gcd' (cont a) (cont b)
+_primitiveEuclidian a b c d = _primitiveEuclidian a b newC newD
+  where (_, r) = pseudoDivmod c d
+        newC = d
+        newD = pp r
+
+exp :: (Num a, Eq a) => DensePolynomial a -> Integer -> DensePolynomial a
+exp a n = _exp a n a
+
+_exp :: (Num a, Eq a) =>DensePolynomial a -> Integer -> DensePolynomial a -> DensePolynomial a
+_exp a n sol
+  | n > 1 = _exp a (n-1) (sol * a)
+  | n == 1 = sol
+  | n == 0 = DensePolynomial [1]
+
+
+squareFreeFactorization a = squareFreeFactorizationImpl c w i [DensePolynomial [1]]
+  where i = 1
+        b = derivative a
+        c = primitiveEuclidian a b
+        (w, _) = divmod a c
+
+squareFreeFactorizationImpl :: RealFrac a => DensePolynomial a -> DensePolynomial a -> Integer -> [DensePolynomial a] -> [DensePolynomial a]
+squareFreeFactorizationImpl (DensePolynomial [1.0]) w i solution = DensePolynomial.exp w i : solution
+
+squareFreeFactorizationImpl poly@(DensePolynomial [c]) w i solution = squareFreeFactorizationImpl newC w i newSolution
+  where newC = DensePolynomial [1.0]
+        newSolution = poly : solution
+
+squareFreeFactorizationImpl c w i solution = squareFreeFactorizationImpl cNew y (i + 1) newSolution
+  where y = primitiveEuclidian w c
+        (z, _) = divmod w y
+        newSolution = DensePolynomial.exp z i : solution
+        (cNew, _) = divmod c y
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 replaceAtIndex :: Int -> a -> [a] -> [a]
 replaceAtIndex n newVal xs = before ++ (newVal : after)
