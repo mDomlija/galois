@@ -106,7 +106,12 @@ pseudoDivisonFactor a@(DensePolynomial aCoefs) b@(DensePolynomial bCoefs)
 pseudoDivmod :: RealFrac a => DensePolynomial a -> DensePolynomial a -> (DensePolynomial a, DensePolynomial a)
 pseudoDivmod a b = divmod (a * fromInteger (pseudoDivisonFactor a b)) b
 
-
+derivative :: (Num a, Eq a) => DensePolynomial a -> DensePolynomial a 
+derivative a@(DensePolynomial coefs) = _derivative t [] 1
+  where (h : t) = reverse coefs
+        _derivative (h : t) solution curr = _derivative t ( h * curr : solution) (curr + 1) 
+        _derivative [] [] _ = DensePolynomial []
+        _derivative [] solution _ = DensePolynomial solution
 
 replaceAtIndex :: Int -> a -> [a] -> [a]
 replaceAtIndex n newVal xs = before ++ (newVal : after)
